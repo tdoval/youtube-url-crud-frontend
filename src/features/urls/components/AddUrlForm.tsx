@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { addUrl } from "@/features/urls/api";
 import { useUrlValidation } from "@/features/urls/hooks/useUrlValidation";
 
 const AddUrlForm = () => {
@@ -11,14 +12,18 @@ const AddUrlForm = () => {
   const [error, setError] = useState("");
   const isValidYoutubeUrl = useUrlValidation(url);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isValidYoutubeUrl) {
-      setError("");
-      console.log("URL válida:", url);
-      // TODO: Adicionar integração com o backend
-    } else {
+    if (!isValidYoutubeUrl) {
       setError("Por favor, insira uma URL válida do YouTube.");
+      return;
+    }
+    try {
+      await addUrl(url);
+      setUrl("");
+      setError("");
+    } catch {
+      setError("Erro ao adicionar a URL.");
     }
   };
 

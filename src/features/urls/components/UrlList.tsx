@@ -1,23 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import YoutubePlayer from "@/features/urls/components/YoutubePlayer";
+import { fetchUrls, deleteUrl } from "@/features/urls/api";
 
 const UrlList = () => {
-  const [urls, setUrls] = useState([
-    { id: 1, url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
-    { id: 2, url: "https://www.youtube.com/watch?v=3JZ_D3ELwOQ" },
-    { id: 3, url: "https://www.youtube.com/watch?v=9bZkp7q19f0" },
-  ]);
+  const [urls, setUrls] = useState<{ id: string; url: string }[]>([]);
   const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleDelete = (id: number) => {
-    setUrls((prevUrls) => prevUrls.filter((url) => url.id !== id));
-    if (selectedUrl === urls.find((url) => url.id === id)?.url) {
-      setSelectedUrl(null);
+  const loadUrls = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchUrls();
+      setUrls(data);
+    } catch (error) {
+      console.error("Erro ao carregar URLs:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadUrls();
+  }, []);
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteUrl(id);
+      setUrls((prevUrls) => prevUrls.filter((url) => url.id !== id));
+      if (selectedUrl === urls.find((url) => url.id === id)?.url) {
+        setSelectedUrl(null);
+      }
+    } catch (error) {
+      console.error("Erro ao deletar URL:", error);
     }
   };
 
@@ -28,16 +47,20 @@ const UrlList = () => {
           <CardTitle>Lista de URLs</CardTitle>
         </CardHeader>
         <CardContent>
-          {urls.length > 0 ? (
+          {loading ? (
+            <div className="flex items-center justify-center min-h-screen -mt-36">
+              <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-blue-500"></div>
+            </div>
+          ) : urls.length > 0 ? (
             <ul className="space-y-4">
               {urls.map((url) => (
                 <li key={url.id} className="flex justify-between items-center">
-                  <button
+                  <Button
                     onClick={() => setSelectedUrl(url.url)}
                     className="text-blue-600 underline"
                   >
                     {url.url}
-                  </button>
+                  </Button>
                   <Button
                     variant="destructive"
                     className="flex items-center"
