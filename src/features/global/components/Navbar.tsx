@@ -1,7 +1,6 @@
 "use client";
 
 import Logo from "@/features/global/components/Logo";
-import { CiFileOn } from "react-icons/ci";
 
 import {
   DropdownMenu,
@@ -10,7 +9,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, LogOut, UserPen } from "lucide-react";
+import {
+  ChevronDown,
+  LogOut,
+  UserPen,
+  DiamondPlus,
+  FileVideo,
+} from "lucide-react";
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { Separator } from "@/components/ui/separator";
@@ -40,11 +45,23 @@ const Navbar = () => {
               onClick={() => {}} // TODO: Add functionality
               className="flex items-center gap-x-2"
             >
-              <CiFileOn className="size-8" />
-              <div>
+              <DiamondPlus className="size-8" />
+              <div className="cursor-pointer">
                 <p>Add Youtube URL</p>
                 <p className="text-xs text-muted-foreground">
                   Add a URL to the list
+                </p>
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {}} // TODO: Add functionality
+              className="flex items-center gap-x-2"
+            >
+              <FileVideo className="size-8" />
+              <div className="cursor-pointer">
+                <p>Manage URLs</p>
+                <p className="text-xs text-muted-foreground">
+                  Edit, delete or view URLs
                 </p>
               </div>
             </DropdownMenuItem>
@@ -64,7 +81,7 @@ const Navbar = () => {
                 onClick={() => {}}
               >
                 <UserPen className="size-8" />
-                <div>
+                <div className="cursor-pointer">
                   <p>Profile</p>
                   <p className="text-xs text-muted-foreground">
                     TODO: not implemented yet
@@ -76,7 +93,7 @@ const Navbar = () => {
                 onClick={() => logout()}
               >
                 <LogOut className="size-8" />
-                <div>
+                <div className="cursor-pointer">
                   <p>Logout</p>
                   <p className="text-xs text-muted-foreground">
                     Sign out of your account
