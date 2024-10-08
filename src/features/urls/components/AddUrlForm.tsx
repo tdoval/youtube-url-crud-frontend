@@ -1,15 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import { addUrl } from "@/features/urls/api";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { addUrl } from "@/features/urls/api";
-import { useUrlValidation } from "@/features/urls/hooks/useUrlValidation";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useRequireAuth } from "@/features/auth/hooks/useRequireAuth";
+import { useUrlValidation } from "@/features/urls/hooks/useUrlValidation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const AddUrlForm = () => {
   useRequireAuth();
+  const { token } = useAuth();
 
   const [url, setUrl] = useState("");
   const [error, setError] = useState("");
@@ -17,16 +19,20 @@ const AddUrlForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+
     if (!isValidYoutubeUrl) {
       setError("Por favor, insira uma URL válida do YouTube.");
       return;
     }
     try {
-      await addUrl(url);
-      setUrl("");
-      setError("");
-    } catch {
-      setError("Erro ao adicionar a URL.");
+      if (!token) {
+        throw new Error("Usuário não autenticado");
+      }
+
+      await addUrl(url, token);
+    } catch (err) {
+      setError((err as Error).message);
     }
   };
 

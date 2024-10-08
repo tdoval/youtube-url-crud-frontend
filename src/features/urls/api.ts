@@ -9,13 +9,21 @@ export const fetchUrls = async () => {
   return handleResponse(response);
 };
 
-export const addUrl = async (url: string) => {
+export const addUrl = async (url: string, token: string) => {
   const response = await fetch(`${API_BASE_URL}/videos/`, {
-    ...defaultFetchOptions,
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify({ url }),
   });
-  return handleResponse(response);
+
+  if (!response.ok) {
+    throw new Error(`Erro ao adicionar o vídeo: ${response.statusText}`);
+  }
+
+  return await response.json();
 };
 
 export const deleteUrl = async (id: string) => {
