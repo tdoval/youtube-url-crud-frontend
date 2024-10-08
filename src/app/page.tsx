@@ -1,7 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useAuthRedirect } from "@/features/auth/hooks/useAuthRedirect";
 
 export default function HomePage() {
+  useAuthRedirect();
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="mb-8">
