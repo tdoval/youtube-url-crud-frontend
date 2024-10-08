@@ -6,8 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { addUrl } from "@/features/urls/api";
 import { useUrlValidation } from "@/features/urls/hooks/useUrlValidation";
+import { useRequireAuth } from "@/features/auth/hooks/useRequireAuth";
 
 const AddUrlForm = () => {
+  useRequireAuth();
+
   const [url, setUrl] = useState("");
   const [error, setError] = useState("");
   const isValidYoutubeUrl = useUrlValidation(url);

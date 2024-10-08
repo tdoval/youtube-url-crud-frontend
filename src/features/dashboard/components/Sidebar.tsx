@@ -31,7 +31,7 @@ const Sidebar = () => {
           </li>
           <li>
             <SidebarNavLink
-              href="/dashboard/urls/view"
+              href="/dashboard/urls/list"
               label="Visualizar URLs"
             />
           </li>

@@ -6,8 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import YoutubePlayer from "@/features/urls/components/YoutubePlayer";
 import { fetchUrls, deleteUrl } from "@/features/urls/api";
+import { useRequireAuth } from "@/features/auth/hooks/useRequireAuth";
 
 const UrlList = () => {
+  useRequireAuth();
+
   const [urls, setUrls] = useState<{ id: string; url: string }[]>([]);
   const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
