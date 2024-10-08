@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useAuthRedirect } from "@/features/auth/hooks/useAuthRedirect";
+import Logo from "@/features/global/components/Logo";
 
 export default function HomePage() {
   useAuthRedirect();
@@ -10,12 +10,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="mb-8">
-        <Image
-          src="/assets/images/url_crud_logo.png"
-          alt="URL CRUD Logo"
-          width={200}
-          height={200}
-        />
+        <Logo />
       </div>
       <h1 className="text-4xl font-bold mb-4">Bem-vindo ao URL CRUD</h1>
       <p className="text-lg text-gray-600 mb-8">

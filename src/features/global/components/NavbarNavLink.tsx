@@ -1,16 +1,14 @@
-// src/features/dashboard/components/SidebarNavLink.tsx
-
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
-type SidebarNavLinkProps = {
+type NavbarNavLinkProps = {
   href: string;
   label: string;
 };
 
-const SidebarNavLink = ({ href, label }: SidebarNavLinkProps) => {
+const NavbarNavLink = ({ href, label }: NavbarNavLinkProps) => {
   const pathname = usePathname();
 
   const isActive = pathname === href;
@@ -28,4 +26,4 @@ const SidebarNavLink = ({ href, label }: SidebarNavLinkProps) => {
   );
 };
 
-export default SidebarNavLink;
+export default NavbarNavLink;
