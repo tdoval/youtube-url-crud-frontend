@@ -4,32 +4,34 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
-import YoutubePlayer from "@/features/urls/components/YoutubePlayer";
+import YoutubePlayer from "@/features/dashboard/components/YoutubePlayer";
 import { fetchUrls, deleteUrl } from "@/features/urls/api";
-import { useRequireAuth } from "@/features/auth/hooks/useRequireAuth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 const UrlList = () => {
-  useRequireAuth();
-
   const [urls, setUrls] = useState<{ id: string; url: string }[]>([]);
   const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const loadUrls = async () => {
-    setLoading(true);
-    try {
-      const data = await fetchUrls();
-      setUrls(data);
-    } catch (error) {
-      console.error("Erro ao carregar URLs:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  const { token } = useAuth();
   useEffect(() => {
-    loadUrls();
-  }, []);
+    const getUrls = async () => {
+      if (!token) {
+        setError("Token não encontrado. Faça login novamente.");
+        return;
+      }
+
+      try {
+        const data = await fetchUrls(token);
+        setUrls(data);
+      } catch (err) {
+        setError((err as Error).message);
+      }
+    };
+
+    getUrls();
+  }, [token]);
 
   const handleDelete = async (id: string) => {
     try {

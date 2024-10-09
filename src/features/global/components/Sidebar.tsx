@@ -2,12 +2,7 @@
 
 import React from "react";
 
-import {
-  FileVideo,
-  DiamondPlus,
-  Play,
-  ChartNoAxesCombined,
-} from "lucide-react";
+import { DiamondPlus, Play } from "lucide-react";
 
 import { SidebarItem } from "@/features/global/components/SidebarItem";
 import { ActiveTool } from "@/features/global/types";
@@ -24,28 +19,16 @@ const Sidebar = ({ activeTool, onChangeActiveTool }: SidebarProps) => {
     >
       <ul className="flex flex-col">
         <SidebarItem
-          icon={Play}
-          label="Player"
-          isActive={activeTool === "play"}
-          onClick={() => onChangeActiveTool("play")}
-        />
-        <SidebarItem
           icon={DiamondPlus}
           label="Add Video"
           isActive={activeTool === "add"}
           onClick={() => onChangeActiveTool("add")}
         />
         <SidebarItem
-          icon={FileVideo}
-          label="Manage Videos"
-          isActive={activeTool === "manage"}
-          onClick={() => onChangeActiveTool("play")}
-        />
-        <SidebarItem
-          icon={ChartNoAxesCombined}
-          label="Stats"
-          isActive={activeTool === "stats"}
-          onClick={() => onChangeActiveTool("stats")}
+          icon={Play}
+          label="URL List"
+          isActive={activeTool === "urls"}
+          onClick={() => onChangeActiveTool("urls")}
         />
       </ul>
     </aside>

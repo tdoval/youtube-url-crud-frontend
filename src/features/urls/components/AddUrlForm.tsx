@@ -5,12 +5,10 @@ import { addUrl } from "@/features/urls/api";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { useRequireAuth } from "@/features/auth/hooks/useRequireAuth";
 import { useUrlValidation } from "@/features/urls/hooks/useUrlValidation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const AddUrlForm = () => {
-  useRequireAuth();
   const { token } = useAuth();
 
   const [url, setUrl] = useState("");

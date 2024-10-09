@@ -15,6 +15,7 @@ import {
   UserPen,
   DiamondPlus,
   FileVideo,
+  ChartNoAxesCombined,
 } from "lucide-react";
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
@@ -63,6 +64,16 @@ const Navbar = () => {
                 <p className="text-xs text-muted-foreground">
                   Edit, delete or view URLs
                 </p>
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {}} // TODO: Add functionality
+              className="flex items-center gap-x-2"
+            >
+              <ChartNoAxesCombined className="size-8" />
+              <div className="cursor-pointer">
+                <p>Stats</p>
+                <p className="text-xs text-muted-foreground">View statistics</p>
               </div>
             </DropdownMenuItem>
           </DropdownMenuContent>

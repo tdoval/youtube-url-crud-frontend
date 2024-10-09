@@ -1,1 +1,7 @@
-export type ActiveTool = "dashboard" | "add" | "manage" | "play" | "stats";
+export type ActiveTool =
+  | "dashboard"
+  | "add"
+  | "manage"
+  | "play"
+  | "stats"
+  | "urls";
