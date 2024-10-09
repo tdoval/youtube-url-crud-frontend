@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, ReactNode, useState, useEffect } from "react";
+import {
+  createContext,
+  ReactNode,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import {
   fetchUrls,
   addUrl as apiAddUrl,
@@ -9,7 +15,11 @@ import {
   updateUrlName as apiUpdateUrlName,
 } from "@/features/dashboard/api";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { UrlContextType, VideoUrl } from "@/features/dashboard/types";
+import {
+  PlayerStatus,
+  UrlContextType,
+  VideoUrl,
+} from "@/features/dashboard/types";
 
 const ensureAuthenticated = (token: string | null) => {
   if (!token) {
@@ -23,6 +33,7 @@ export const UrlProvider = ({ children }: { children: ReactNode }) => {
   const { token } = useAuth();
   const [urls, setUrls] = useState<VideoUrl[]>([]);
   const [currentUrl, setCurrentUrl] = useState<VideoUrl | null>(null);
+  const [status, setStatus] = useState<PlayerStatus>("noVideoSelected");
 
   const loadUrls = async () => {
     ensureAuthenticated(token);
@@ -31,6 +42,7 @@ export const UrlProvider = ({ children }: { children: ReactNode }) => {
       setUrls(fetchedUrls);
       if (fetchedUrls.length > 0) {
         setCurrentUrl(fetchedUrls[0]);
+        setStatus("isStopped");
       }
     } catch (err) {
       console.error("Erro ao carregar as URLs:", err);
@@ -76,6 +88,35 @@ export const UrlProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
+  const selectUrl = (videoUrl: VideoUrl) => {
+    setCurrentUrl(videoUrl);
+    setStatus("isStopped");
+  };
+
+  // Funções de controle do player
+  const play = useCallback(() => {
+    if (currentUrl) {
+      setStatus("isPlaying");
+    }
+  }, [currentUrl]);
+
+  const pause = useCallback(() => {
+    if (currentUrl) {
+      setStatus("isPaused");
+    }
+  }, [currentUrl]);
+
+  const stop = useCallback(() => {
+    if (currentUrl) {
+      setStatus("isStopped");
+    }
+  }, [currentUrl]);
+
+  const clear = useCallback(() => {
+    setStatus("noVideoSelected");
+    setCurrentUrl(null);
+  }, []);
+
   return (
     <UrlContext.Provider
       value={{
@@ -87,6 +128,12 @@ export const UrlProvider = ({ children }: { children: ReactNode }) => {
         deleteUrl,
         updateUrl,
         updateUrlName,
+        selectUrl,
+        status,
+        play,
+        pause,
+        stop,
+        clear,
       }}
     >
       {children}

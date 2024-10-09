@@ -10,9 +10,11 @@ import AddUrlSidebar from "./AddUrlSidebar";
 import StatsSidebar from "./StatsSidebar";
 import YoutubePlayer from "./YoutubePlayer";
 import { Toaster } from "@/components/ui/toaster";
+import { useUrls } from "../hooks/useUrls";
 
 const Dashboard = () => {
   useRequireAuth();
+  const { currentUrl } = useUrls();
 
   const [activeTool, setActiveTool] = useState<ActiveTool>("dashboard");
 
@@ -47,12 +49,13 @@ const Dashboard = () => {
           onChangeActiveTool={onChangeActiveTool}
         />
         <main className="bg-muted flex-1 overflow-auto relative flex flex-col">
-          <Toolbar />
+          <Toolbar
+            activeTool={activeTool}
+            onChangeActiveTool={onChangeActiveTool}
+          />
           <Toaster />
           <div className="flex-1 h-[calc(100%-124px)] bg-muted">
-            <div className="flex-1 h-[calc(100%-124px)] bg-muted">
-              {activeTool === "play" && <YoutubePlayer />}
-            </div>
+            {currentUrl?.url && <YoutubePlayer />}
           </div>
         </main>
       </div>

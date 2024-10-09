@@ -12,7 +12,7 @@ interface UrlSidebarItemProps {
 }
 
 const UrlSidebarItem: React.FC<UrlSidebarItemProps> = ({ videoUrl }) => {
-  const { deleteUrl, updateUrlName } = useUrls();
+  const { deleteUrl, updateUrlName, selectUrl } = useUrls();
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [newUrlName, setNewUrlName] = useState(videoUrl.name);
@@ -75,10 +75,17 @@ const UrlSidebarItem: React.FC<UrlSidebarItemProps> = ({ videoUrl }) => {
             </Button>
           </div>
         ) : (
-          <>
-            <p className="font-bold text-sm">{videoUrl.name}</p>
-            <p className="text-xs text-muted-foreground">{videoUrl.url}</p>
-          </>
+          <div
+            className="cursor-pointer group hover:bg-gray-100 p-2 rounded-md transition-colors"
+            onClick={() => selectUrl(videoUrl)}
+          >
+            <p className="font-bold text-sm group-hover:text-red-500 transition-colors">
+              {videoUrl.name}
+            </p>
+            <p className="text-xs text-muted-foreground group-hover:text-red-500 transition-colors">
+              {videoUrl.url}
+            </p>
+          </div>
         )}
       </div>
       {!isEditing && (

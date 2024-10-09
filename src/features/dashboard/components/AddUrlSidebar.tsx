@@ -26,7 +26,9 @@ const AddUrlSidebar = ({
     >
       <ToolSidebarHeader title="Add URL" description="Add a new video URL" />
       <ScrollArea>
-        <AddUrlForm />
+        <div className="container p-2">
+          <AddUrlForm onChangeActiveTool={onChangeActiveTool} />
+        </div>
       </ScrollArea>
 
       <ToolSidebarClose onClick={onClose} />

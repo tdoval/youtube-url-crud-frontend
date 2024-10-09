@@ -19,9 +19,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { useUrlValidation } from "@/features/dashboard/hooks/useUrlValidation";
+import { ActiveTool } from "@/features/global/types";
 
 const formSchema = z.object({
   url: z
@@ -37,13 +37,14 @@ type FormData = z.infer<typeof formSchema>;
 
 interface AddUrlFormProps {
   closeModal?: () => void;
+  activeTool?: ActiveTool;
+  onChangeActiveTool?: (tool: ActiveTool) => void;
 }
 
-const AddUrlForm = ({ closeModal }: AddUrlFormProps) => {
+const AddUrlForm = ({ closeModal, onChangeActiveTool }: AddUrlFormProps) => {
   const { toast } = useToast();
   const { token } = useAuth();
   const { addUrl } = useUrls();
-  const router = useRouter();
 
   const [submitError, setSubmitError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -76,7 +77,9 @@ const AddUrlForm = ({ closeModal }: AddUrlFormProps) => {
 
         if (closeModal) closeModal();
 
-        router.push("/dashboard");
+        if (onChangeActiveTool) {
+          onChangeActiveTool("play");
+        }
       } else {
         throw new Error("Usuário não autenticado.");
       }
