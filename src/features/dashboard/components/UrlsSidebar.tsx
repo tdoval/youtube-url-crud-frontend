@@ -3,6 +3,9 @@ import ToolSidebarHeader from "./ToolSidebarHeader";
 import { cn } from "@/lib/utils";
 import { ToolSidebarClose } from "./ToolSidebarClose";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useUrls } from "@/features/dashboard/hooks/useUrls";
+import UrlSidebarItem from "./UrlSidebarItem";
+import { VideoUrl } from "@/features/dashboard/types";
 
 interface UrlsSidebarProps {
   activeTool: ActiveTool;
@@ -10,9 +13,12 @@ interface UrlsSidebarProps {
 }
 
 const UrlsSidebar = ({ activeTool, onChangeActiveTool }: UrlsSidebarProps) => {
+  const { urls } = useUrls();
+
   const onClose = () => {
     onChangeActiveTool("dashboard");
   };
+
   return (
     <aside
       className={cn(
@@ -24,7 +30,16 @@ const UrlsSidebar = ({ activeTool, onChangeActiveTool }: UrlsSidebarProps) => {
         title="Urls"
         description="Video list to select and play"
       />
-      <ScrollArea>{/* TODO: map com as URLS */}</ScrollArea>
+      <ScrollArea>
+        {urls.length > 0 ? (
+          urls.map((url: VideoUrl) => (
+            <UrlSidebarItem key={url.id} videoUrl={url} />
+          ))
+        ) : (
+          //TODO: implementar botão para cadastrar URL ou redirecionar para o AddUrlForm
+          <p>Nenhuma URL disponível.</p>
+        )}
+      </ScrollArea>
 
       <ToolSidebarClose onClick={onClose} />
     </aside>

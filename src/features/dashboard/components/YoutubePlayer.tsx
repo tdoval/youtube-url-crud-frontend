@@ -1,14 +1,16 @@
 import React from "react";
 import ReactPlayer from "react-player/youtube";
+import { useUrls } from "@/features/dashboard/hooks/useUrls";
 
-interface YoutubePlayerProps {
-  url: string;
-}
-
-const YoutubePlayer: React.FC<YoutubePlayerProps> = ({ url }) => {
+const YoutubePlayer = () => {
+  const { currentUrl } = useUrls();
   return (
     <div className="w-full h-64">
-      <ReactPlayer url={url} width="100%" height="100%" controls />
+      {currentUrl ? (
+        <ReactPlayer url={currentUrl.url} width="100%" height="100%" controls />
+      ) : (
+        <p>Selecione uma URL para assistir</p>
+      )}
     </div>
   );
 };

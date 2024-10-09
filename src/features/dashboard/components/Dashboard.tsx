@@ -8,6 +8,8 @@ import UrlsSidebar from "./UrlsSidebar";
 import Toolbar from "./Toolbar";
 import AddUrlSidebar from "./AddUrlSidebar";
 import StatsSidebar from "./StatsSidebar";
+import YoutubePlayer from "./YoutubePlayer";
+import { Toaster } from "@/components/ui/toaster";
 
 const Dashboard = () => {
   useRequireAuth();
@@ -46,6 +48,12 @@ const Dashboard = () => {
         />
         <main className="bg-muted flex-1 overflow-auto relative flex flex-col">
           <Toolbar />
+          <Toaster />
+          <div className="flex-1 h-[calc(100%-124px)] bg-muted">
+            <div className="flex-1 h-[calc(100%-124px)] bg-muted">
+              {activeTool === "play" && <YoutubePlayer />}
+            </div>
+          </div>
         </main>
       </div>
     </div>

@@ -3,6 +3,7 @@ import ToolSidebarHeader from "./ToolSidebarHeader";
 import { cn } from "@/lib/utils";
 import { ToolSidebarClose } from "./ToolSidebarClose";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import AddUrlForm from "@/features/dashboard/components/AddUrlForm";
 
 interface AddUrlSidebarProps {
   activeTool: ActiveTool;
@@ -24,7 +25,9 @@ const AddUrlSidebar = ({
       )}
     >
       <ToolSidebarHeader title="Add URL" description="Add a new video URL" />
-      <ScrollArea>{/* TODO: Add URL list */}</ScrollArea>
+      <ScrollArea>
+        <AddUrlForm />
+      </ScrollArea>
 
       <ToolSidebarClose onClick={onClose} />
     </aside>

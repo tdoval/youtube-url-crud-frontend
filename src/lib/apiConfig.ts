@@ -12,5 +12,9 @@ export const handleResponse = async (response: Response) => {
     const errorMessage = await response.text();
     throw new Error(errorMessage || "Erro desconhecido");
   }
-  return response.json();
+
+  if (response.status === 204) {
+    return null;
+  }
+  return await response.json();
 };
