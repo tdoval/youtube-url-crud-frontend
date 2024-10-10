@@ -20,18 +20,19 @@ const AddUrlSidebar = ({
   return (
     <aside
       className={cn(
-        "bg-white relative border-r z-[40] w-[360px] h-full flex flex-col",
+        "bg-gray-50 relative border-r z-[40] w-[360px] h-full flex flex-col",
         activeTool === "add" ? "visible" : "hidden",
       )}
     >
       <ToolSidebarHeader title="Add URL" description="Add a new video URL" />
-      <ScrollArea>
-        <div className="container p-2">
+      <ScrollArea className="flex-1">
+        <div className="container p-4 bg-white shadow-sm rounded-md">
           <AddUrlForm onChangeActiveTool={onChangeActiveTool} />
         </div>
       </ScrollArea>
-
-      <ToolSidebarClose onClick={onClose} />
+      <div className="p-4 border-t bg-gray-100">
+        <ToolSidebarClose onClick={onClose} />
+      </div>
     </aside>
   );
 };

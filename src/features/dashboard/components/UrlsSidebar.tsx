@@ -6,6 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useUrls } from "@/features/dashboard/hooks/useUrls";
 import UrlSidebarItem from "./UrlSidebarItem";
 import { VideoUrl } from "@/features/dashboard/types";
+import { Button } from "@/components/ui/button";
 
 interface UrlsSidebarProps {
   activeTool: ActiveTool;
@@ -22,7 +23,7 @@ const UrlsSidebar = ({ activeTool, onChangeActiveTool }: UrlsSidebarProps) => {
   return (
     <aside
       className={cn(
-        "bg-white relative border-r z-[40] w-[360px] h-full flex flex-col",
+        "bg-gray-50 relative border-r z-[40] w-[360px] h-full flex flex-col",
         activeTool === "urls" ? "visible" : "hidden",
       )}
     >
@@ -30,14 +31,21 @@ const UrlsSidebar = ({ activeTool, onChangeActiveTool }: UrlsSidebarProps) => {
         title="Urls"
         description="Video list to select and play"
       />
-      <ScrollArea>
+      <ScrollArea className="bg-white">
         {urls.length > 0 ? (
           urls.map((url: VideoUrl) => (
             <UrlSidebarItem key={url.id} videoUrl={url} />
           ))
         ) : (
-          //TODO: implementar botão para cadastrar URL ou redirecionar para o AddUrlForm
-          <p>Nenhuma URL disponível.</p>
+          <div className="p-4">
+            <p className="text-center">0 URLS registered</p>
+            <Button
+              className={`w-full bg-blue-500 text-white mt-10`}
+              onClick={() => onChangeActiveTool("add")}
+            >
+              Add new Video URL
+            </Button>
+          </div>
         )}
       </ScrollArea>
 
