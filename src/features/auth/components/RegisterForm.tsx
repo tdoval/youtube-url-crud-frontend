@@ -15,6 +15,7 @@ const RegisterForm = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const { login } = useAuth();
   const router = useRouter();
@@ -24,12 +25,15 @@ const RegisterForm = () => {
     setError("");
 
     try {
+      setIsLoading(true);
       await registerUser({ username, email, password });
       const tokenData = await loginUser({ username, password });
       login(tokenData.access, tokenData.refresh, username);
       router.push("/dashboard");
     } catch (err) {
       setError((err as Error).message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -66,8 +70,8 @@ const RegisterForm = () => {
               required
             />
             {error && <p className="text-red-500 mb-4">{error}</p>}
-            <Button type="submit" className="w-full">
-              Registrar
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? "Registrando..." : "Registrar"}
             </Button>
           </form>
           <div className="mt-4 text-center">
