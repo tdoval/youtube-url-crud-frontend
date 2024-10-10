@@ -1,27 +1,19 @@
 import { useState } from "react";
-import { Pencil, Trash, Check } from "lucide-react";
+import { Pencil, Trash } from "lucide-react";
 import { VideoUrl } from "@/features/dashboard/types";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useUrls } from "@/features/dashboard/hooks/useUrls";
 import { useToast } from "@/hooks/use-toast";
+import Modal from "@/features/global/components/Modal";
+import EditUrlForm from "@/features/dashboard/components/EditUrlForm";
 
 interface UrlManagementItemProps {
   videoUrl: VideoUrl;
-  isEditing: boolean;
-  onEdit: (id: string) => void;
-  onStopEditing: () => void;
 }
 
-const UrlManagementItem: React.FC<UrlManagementItemProps> = ({
-  videoUrl,
-  isEditing,
-  onEdit,
-  onStopEditing,
-}) => {
-  const { updateUrlName, updateUrl, deleteUrl } = useUrls();
-  const [newUrlName, setNewUrlName] = useState(videoUrl.name);
-  const [newUrl, setNewUrl] = useState(videoUrl.url);
+const UrlManagementItem: React.FC<UrlManagementItemProps> = ({ videoUrl }) => {
+  const { deleteUrl } = useUrls();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { toast } = useToast();
 
   const handleDelete = async () => {
@@ -42,90 +34,40 @@ const UrlManagementItem: React.FC<UrlManagementItemProps> = ({
     }
   };
 
-  const handleSaveName = async () => {
-    try {
-      await updateUrlName(videoUrl.id, newUrlName);
-      toast({
-        title: "Nome atualizado",
-        description: `O nome da URL foi atualizado para "${newUrlName}".`,
-        variant: "success",
-      });
-      onStopEditing();
-    } catch (error) {
-      toast({
-        title: "Erro ao atualizar o nome",
-        description: `Ocorreu um erro ao atualizar o nome da URL para "${newUrlName}".`,
-        variant: "destructive",
-      });
-      console.error("Erro ao atualizar o nome:", error);
-    }
+  const handleEdit = () => {
+    setIsEditModalOpen(true);
   };
 
-  const handleSaveUrl = async () => {
-    try {
-      await updateUrl(videoUrl.id, newUrl);
-      onStopEditing();
-    } catch (error) {
-      console.error("Erro ao atualizar a URL:", error);
-    }
+  const handleCloseModal = () => {
+    setIsEditModalOpen(false);
   };
 
-  if (!isEditing) {
-    return (
-      <div className="flex items-start justify-between p-4 border-b border-gray-300 bg-white rounded">
-        <div className="flex-1">
-          <div className="flex justify-between">
-            <p className="font-bold text-sm">{videoUrl.name}</p>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onEdit(videoUrl.id)}
-            >
-              <Pencil className="w-4 h-4" />
-            </Button>
-          </div>
-          <div className="flex justify-between mt-2">
-            <p className="text-xs text-muted-foreground">{videoUrl.url}</p>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onEdit(videoUrl.id)}
-            >
-              <Pencil className="w-4 h-4" />
-            </Button>
-          </div>
+  return (
+    <div className="flex flex-col items-start justify-between p-4 border-b border-gray-300 bg-white rounded">
+      <div className="flex justify-between w-full">
+        <div className="flex items-center">
+          <p className="font-bold text-sm">{videoUrl.name}</p>
         </div>
         <Button variant="ghost" size="sm" onClick={handleDelete}>
           <Trash className="w-4 h-4" />
         </Button>
       </div>
-    );
-  }
 
-  return (
-    <div className="p-4 border-b border-gray-300 bg-white rounded">
-      <div className="flex-1">
-        <div className="flex justify-between items-center">
-          <Input
-            value={newUrlName}
-            onChange={(e) => setNewUrlName(e.target.value)}
-            className="text-sm"
-          />
-          <Button variant="ghost" size="sm" onClick={handleSaveName}>
-            <Check className="w-4 h-4" />
-          </Button>
-        </div>
-        <div className="flex justify-between items-center mt-2">
-          <Input
-            value={newUrl}
-            onChange={(e) => setNewUrl(e.target.value)}
-            className="text-sm"
-          />
-          <Button variant="ghost" size="sm" onClick={handleSaveUrl}>
-            <Check className="w-4 h-4" />
-          </Button>
-        </div>
+      <div className="flex items-center justify-between w-full mt-2">
+        <p className="text-xs text-muted-foreground">{videoUrl.url}</p>
+        <Button variant="ghost" size="sm" onClick={handleEdit} className="ml-2">
+          <Pencil className="w-4 h-4" />
+        </Button>
       </div>
+
+      <Modal
+        isOpen={isEditModalOpen}
+        onClose={handleCloseModal}
+        title="Editar URL"
+        description={`Edite o nome ou a URL de ${videoUrl.name}`}
+      >
+        <EditUrlForm onClose={handleCloseModal} />
+      </Modal>
     </div>
   );
 };
