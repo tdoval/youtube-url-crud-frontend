@@ -12,6 +12,6 @@ export type LoginData = {
 export type AuthContextType = {
   user: string | null;
   token: string | null;
-  login: (token: string, user: string) => void;
+  login: (accessToken: string, refreshToken: string, user: string) => void;
   logout: () => void;
 };

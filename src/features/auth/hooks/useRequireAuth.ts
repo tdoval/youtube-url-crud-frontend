@@ -10,7 +10,7 @@ export const useRequireAuth = () => {
 
   useEffect(() => {
     if (!token) {
-      router.replace("/login");
+      router.replace("/");
     }
   }, [token, router]);
 };

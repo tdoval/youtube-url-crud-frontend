@@ -25,7 +25,7 @@ const RegisterForm = () => {
     try {
       await registerUser({ username, email, password });
       const tokenData = await loginUser({ username, password });
-      login(tokenData.access, username);
+      login(tokenData.access, tokenData.refresh, username);
       router.push("/dashboard");
     } catch (err) {
       setError((err as Error).message);
