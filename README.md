@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# YouTube URL CRUD Frontend
 
-## Getting Started
+Este é o repositório do frontend do projeto CRUD de URLs do YouTube. O objetivo deste projeto é permitir o gerenciamento de URLs de vídeos do YouTube, com funcionalidades de criação, leitura, atualização e exclusão (CRUD).
 
-First, run the development server:
+## Tecnologias Utilizadas
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Next.js 14**: Framework de React para desenvolvimento de aplicações web modernas e eficientes.
+- **TypeScript**: Superset de JavaScript que adiciona tipagem estática opcional, ajudando a evitar erros e a melhorar a qualidade do código.
+- **TailwindCSS**: Framework de CSS utilitário para estilização rápida e consistente.
+- **ShadcnUI**: Biblioteca de componentes para uma UI consistente e rápida.
+- **Context API**: Gerenciamento de estado global para a aplicação.
+- **Custom Hooks**: Hooks personalizados foram utilizados para abstrair lógica de negócio e manipulação de dados.
+- **Fetch API**: Utilizada para realizar requisições ao backend, conectado via uma API RESTful.
+
+## Configuração do Projeto
+
+Para a conexão com o backend em Python Django, utilize as variáveis de ambiente configuradas em `.env.example`:
+
+```
+NEXT_PUBLIC_API_URL=http://localhost:8000/api
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Este endpoint é utilizado para se comunicar com o backend.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Como Clonar e Executar o Projeto
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Siga os passos abaixo para clonar e executar o projeto localmente:
 
-## Learn More
+1. Clone o repositório:
 
-To learn more about Next.js, take a look at the following resources:
+   ```sh
+   git clone https://github.com/tdoval/youtube-url-crud-frontend.git
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Navegue até o diretório do projeto:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```sh
+   cd youtube-url-crud-frontend
+   ```
 
-## Deploy on Vercel
+3. Instale as dependências utilizando `npm`:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```sh
+   npm install
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. Crie um arquivo `.env` na raiz do projeto e configure as variáveis de ambiente conforme o arquivo `.env.example`.
+
+5. Execute o projeto em ambiente de desenvolvimento:
+
+   ```sh
+   npm run dev
+   ```
+
+6. Abra o navegador e acesse [http://localhost:3000](http://localhost:3000) para visualizar a aplicação.
+
+## Estrutura do Projeto
+
+A estrutura do projeto foi organizada em diretórios principais, cada um responsável por uma parte específica da aplicação:
+
+- **features**: Contém as funcionalidades principais do projeto (autenticação, dashboard, CRUD de URLs).
+- **components**: Componentes reutilizáveis utilizados em várias partes do projeto.
+- **context**: Implementação do Context API para o gerenciamento de estado global.
+- **hooks**: Custom hooks para lógica específica, como autenticação e validação de URLs.
+- **global**: Recursos globais, como navbar, modal, loader e Sidebar.
+
+## Backend
+
+O backend do projeto está implementado em Python Django e está disponível em [https://github.com/tdoval/youtube-url-crud-backend]().
+
+Certifique-se de que o backend esteja sendo executado para que a aplicação funcione corretamente.
