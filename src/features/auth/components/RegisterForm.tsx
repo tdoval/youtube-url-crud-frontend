@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { registerUser, loginUser } from "@/features/auth/api";
 import { useAuthRedirect } from "@/features/auth/hooks/useAuthRedirect";
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import Link from "next/link";
 
 const RegisterForm = () => {
   useAuthRedirect();
@@ -69,6 +70,11 @@ const RegisterForm = () => {
               Registrar
             </Button>
           </form>
+          <div className="mt-4 text-center">
+            <Link href="/login" className="text-blue-500 hover:underline">
+              Clique aqui para acessar sua conta
+            </Link>
+          </div>
         </CardContent>
       </Card>
     </div>
